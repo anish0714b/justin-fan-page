@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Justin Bieber 3D Albums Showcase</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            overflow: hidden;
+        }
+        #title {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            color: black;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            z-index: 1;
+        }
+      #id {
+        background-color: black;
+      }
+    </style>
+</head>
+<body>
+    <div id="title">Justin Bieber's My Top Albums</div>
+    <a-scene>
+        <!-- Define the parent entity to hold album covers -->
+        <a-entity id="album-group" position="0 1.5 -5">
+            <!-- Album Covers -->
+            <a-image class="album" width="1.5" height="1.5" src="album2.png"></a-image>
+            <a-image class="album" width="1.5" height="1.5" src="album1.jpg"></a-image>
+            <a-image class="album" width="1.5" height="1.5" src="album3.jpeg"></a-image>
+            <a-image class="album" width="1.5" height="1.5" src="album4.webp"></a-image>
+        </a-entity>
+
+        <!-- Sky and Lights -->
+        <a-sky color="grey"></a-sky>
+        <a-light type="ambient" color="#445451"></a-light>
+        <a-light type="point" intensity="2" position="2 4 4"></a-light>
+    </a-scene>
+    
+    <script>
+        // JavaScript to rotate the album group
+        document.addEventListener('DOMContentLoaded', () => {
+            const albumGroup = document.getElementById('album-group');
+            const albums = document.querySelectorAll('.album');
+            const radius = 3;
+            let rotation = 0;
+
+            function rotateGroup() {
+                rotation += 0.1; // Adjust the speed of rotation (slower)
+                const rad = THREE.Math.degToRad(rotation);
+
+                albums.forEach((album, index) => {
+                    const angle = rad + index * (Math.PI * 2 / albums.length);
+                    const x = radius * Math.cos(angle);
+                    const z = radius * Math.sin(angle);
+
+                    album.object3D.position.set(x, 0, z);
+                    album.object3D.lookAt(new THREE.Vector3(0, 1.5, -5));
+                });
+
+                requestAnimationFrame(rotateGroup);
+            }
+
+            rotateGroup();
+        });
+    </script>
+</body>
+</html>
